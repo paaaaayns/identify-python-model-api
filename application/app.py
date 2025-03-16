@@ -195,18 +195,25 @@ async def search(iris: UploadFile = File(...), stored_irises: str = Form(...)):
 
 @app.post('/compare')           # debugger
 async def compare_iris(image1: UploadFile = File(...), image2: UploadFile = File(...)):
+
     image1 = await image1.read()
     image2 = await image2.read()
 
+    print(f"\n\n--- Processing image1 ---")
     image1_iris_blob, image1_mask_blob = process_iris(image1)
+    print(f"\n\n--- Processing image2 ---")
     image2_iris_blob, image2_mask_blob  = process_iris(image2)
 
-    best_hamming_distance, best_shift, match_status = utils.compute_shifted_hamming_distance(image1_iris_blob, image1_mask_blob, image2_iris_blob, image2_mask_blob)
+    print(f"\n\n--- Computing Hamming Distance ---")
+    best_hamming_distance, best_shift, is_match = utils.compute_shifted_hamming_distance(image1_iris_blob, image1_mask_blob, image2_iris_blob, image2_mask_blob)
 
-    print(f"Hamming Distance: {best_hamming_distance:.4f}")
-    print(f"Best Shift: {best_shift}")
-    print(f"Result: {match_status}")
+    match_status = "✅ Matched" if is_match else "❌ Not Matched"
 
-    return
+    print(f"\n--- Iris Comparison Result ---")
+    print(f"Hamming Distance : {best_hamming_distance:.4f}")
+    print(f"Best Shift       : {best_shift}")
+    print(f"Result           : {match_status}")
+
+    return match_status
     # sample curl command
     # curl -X POST "http://127.0.0.1:8000/compare" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "image1=@\"C:\Users\Acer\Documents\Projects\identify\Files\Datasets\irishield-capture\01\L\P01L03.bmp\"" -F "image2=@\"C:\Users\Acer\Documents\Projects\identify\Files\Datasets\irishield-capture\01\L\P01L01.bmp\""

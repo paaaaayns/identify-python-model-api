@@ -143,9 +143,10 @@ def compute_shifted_hamming_distance(code1, mask1, code2, mask2, max_shift=20, t
         else:
             hamming_distance = 1.0
         
+        print(f"Shift: {shift} \t Hamming Distance: {hamming_distance:.4f}")
         if hamming_distance < best_hamming_distance:
             best_hamming_distance = hamming_distance
             best_shift = shift
     
-    match_status = "Match ✅" if best_hamming_distance <= threshold else "No Match ❌"
-    return best_hamming_distance, best_shift, match_status
+    is_match = True if best_hamming_distance <= threshold else False
+    return best_hamming_distance, best_shift, is_match
