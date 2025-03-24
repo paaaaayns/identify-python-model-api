@@ -107,11 +107,11 @@ def process_iris(image_bytes):
     iris_blob, mask_blob = utils.extract_iris_code(normalized_iris, normalized_mask)
 
     # Save images for debugging
-    # cv2.imwrite(image_path + "normalized_iris_mask.png", normalized_iris_masked)
-    # cv2.imwrite(image_path + "normalized_iris.png", normalized_iris)
-    # cv2.imwrite(image_path + "localized_iris.png", localized_iris)
-    # cv2.imwrite(image_path + "normalized_mask.png", normalized_mask)
-    # cv2.imwrite(image_path + "pred_mask.png", pred_mask)
+    cv2.imwrite(image_path + "normalized_iris_mask.png", normalized_iris_masked)
+    cv2.imwrite(image_path + "normalized_iris.png", normalized_iris)
+    cv2.imwrite(image_path + "localized_iris.png", localized_iris)
+    cv2.imwrite(image_path + "normalized_mask.png", normalized_mask)
+    cv2.imwrite(image_path + "pred_mask.png", pred_mask)
 
     return iris_blob, mask_blob
 
